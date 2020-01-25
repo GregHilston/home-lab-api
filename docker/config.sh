@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-service=home-lab-api
+service=home-lab-api:latest
