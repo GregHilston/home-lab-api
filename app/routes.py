@@ -30,23 +30,3 @@ def index():
         return f"WOL packet sent to mac address '{mac_address_to_send_wake_on_lan_to}'", http_ok_status_code
     else:
         return "an unexpected internal error occurred", http_internal_server_error_status_code
-
-
-@app.route('/api/array/start')
-def start_array():
-    response = subprocess.run(["./commands/start_array.sh"])
-
-    if response.returncode == successful_bash_status_code:
-        return f"Array started'", http_ok_status_code
-    else:
-        return "an unexpected internal error occurred", http_internal_server_error_status_code
-
-
-@app.route('/api/array/stop')
-def stop_array():
-    response = subprocess.run(["./commands/stop_array.sh"])
-
-    if response.returncode == successful_bash_status_code:
-        return f"Array stopped'", http_ok_status_code
-    else:
-        return "an unexpected internal error occurred", http_internal_server_error_status_code
