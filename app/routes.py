@@ -1,6 +1,6 @@
 import os
 import subprocess
-from flask import request
+from flask import request, send_from_directory
 
 from app import app
 
@@ -9,8 +9,13 @@ http_internal_server_error_status_code = 500
 successful_bash_status_code = 0
 
 
-@app.route('/api/wol')
+@app.route("/")
 def index():
+    return app.send_static_file("html/index.html")
+
+
+@app.route("/api/wol")
+def wol():
     http_bad_request_status_code = 400
     bad_request_message = "must be a provided GET parameter and a valid str"
 
