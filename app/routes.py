@@ -24,6 +24,8 @@ def wol():
     # if network_interface is None:
     #     return network_interface_key + " " + bad_request_message, http_bad_request_status_code
 
+    return {"message": "success"}
+
     mac_address_to_send_wake_on_lan_to_key = "mac_address_to_send_wake_on_lan_to"
     mac_address_to_send_wake_on_lan_to = request.args.get(mac_address_to_send_wake_on_lan_to_key)
     if mac_address_to_send_wake_on_lan_to is None:
