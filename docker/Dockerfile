@@ -1,14 +1,15 @@
 FROM python:3.7
 
 RUN apt-get update -y
-RUN apt-get install -y etherwake
+RUN apt-get install -y etherwake lsof
 
-COPY . home-lab-api
-RUN pip3 install -r home-lab-api/requirements.txt
+ADD requirements.txt /root/requirements.txt
 
-COPY . .
+RUN pip3 install -r root/requirements.txt
 
 ENV FLASK_APP=api.py
 ENV FLASK_ENV=development
 
-CMD [ "gunicorn", "-b", "localhost:8000", "-w", "4", "api:app" ]
+ADD bootstrap.sh /root/bootstrap.sh
+
+CMD ["/root/bootstrap.sh"]
