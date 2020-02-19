@@ -4,8 +4,12 @@ from flask import request
 
 from app import app
 
+http_ok_status_code = 200
+http_internal_server_error_status_code = 500
+successful_bash_status_code = 0
 
-@app.route('/api/wal')
+
+@app.route('/api/wol')
 def index():
     http_bad_request_status_code = 400
     bad_request_message = "must be a provided GET parameter and a valid str"
@@ -20,12 +24,29 @@ def index():
     if mac_address_to_send_wake_on_lan_to is None:
         return mac_address_to_send_wake_on_lan_to_key + " " + bad_request_message, http_bad_request_status_code
 
-    wal = subprocess.run(["./commands/wal.sh", mac_address_to_send_wake_on_lan_to])
+    response = subprocess.run(["./commands/wol.sh", mac_address_to_send_wake_on_lan_to])
 
-    successful_bash_status_code = 0
-    if wal.returncode == successful_bash_status_code:
-        http_ok_status_code = 200
-        return f"WAL packet sent to mac address '{mac_address_to_send_wake_on_lan_to}'", http_ok_status_code
+    if response.returncode == successful_bash_status_code:
+        return f"WOL packet sent to mac address '{mac_address_to_send_wake_on_lan_to}'", http_ok_status_code
     else:
-        http_internal_server_error_status_code = 500
+        return "an unexpected internal error occurred", http_internal_server_error_status_code
+
+
+@app.route('/api/array/start')
+def start_array():
+    response = subprocess.run(["./commands/start_array.sh"])
+
+    if response.returncode == successful_bash_status_code:
+        return f"Array started'", http_ok_status_code
+    else:
+        return "an unexpected internal error occurred", http_internal_server_error_status_code
+
+
+@app.route('/api/array/stop')
+def stop_array():
+    response = subprocess.run(["./commands/stop_array.sh"])
+
+    if response.returncode == successful_bash_status_code:
+        return f"Array stopped'", http_ok_status_code
+    else:
         return "an unexpected internal error occurred", http_internal_server_error_status_code
