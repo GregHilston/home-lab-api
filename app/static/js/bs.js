@@ -7,7 +7,6 @@ async function foo(event) {
     event.preventDefault();
     const mac_address_to_send_wake_on_lan_to_value = mac_address_to_send_wake_on_lan_to.value
 
-    console.log(mac_address_to_send_wake_on_lan_to_value)
 
     try {
         const response = await fetch(
@@ -15,8 +14,6 @@ async function foo(event) {
         )
 
         const next_response = await response.json()
-        console.log(response)
-        console.log(next_response)
     } catch (error) {
         console.log(error)
     }
